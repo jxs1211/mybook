@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+
+
+{% block css %}
+    <!--Switchery [ OPTIONAL ]-->
+    <link href="/static/plugins/switchery/switchery.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.css" rel="stylesheet">
+
+
+    <!--Chosen [ OPTIONAL ]-->
+    <link href="/static/plugins/chosen/chosen.min.css" rel="stylesheet">
+
+
+    <!--noUiSlider [ OPTIONAL ]-->
+    <link href="/static/plugins/noUiSlider/nouislider.min.css" rel="stylesheet">
+
+
+    <!--Select2 [ OPTIONAL ]-->
+    <link href="/static/plugins/select2/css/select2.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <!--Switchery [ OPTIONAL ]-->
+    <script src="/static/plugins/switchery/switchery.min.js"></script>
+
+
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+
+
+    <!--Chosen [ OPTIONAL ]-->
+    <script src="/static/plugins/chosen/chosen.jquery.min.js"></script>
+
+
+    <!--noUiSlider [ OPTIONAL ]-->
+    <script src="/static/plugins/noUiSlider/nouislider.min.js"></script>
+
+
+    <!--Select2 [ OPTIONAL ]-->
+    <script src="/static/plugins/select2/js/select2.min.js"></script>
+
+
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+
+
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+
+    <!--Form Component [ SAMPLE ]-->
+    <script src="/static/js/demo/form-component.js"></script>
+{% endblock %}
+{% block title %}
+    图书展示
+{% endblock %}
+
+
+{% block content %}
+    <div id="page-content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">图书信息</h3>
+                    </div>
+
+                    <!--Data Table-->
+                    <!--===================================================-->
+                    <div class="panel-body">
+                        <div class="pad-btm form-inline">
+                            <div class="row">
+                                <form action="{% url 'index' %}" method="get">
+                                    <div class="col-sm-6 table-toolbar-left">
+                                        <!--=================Bootstrap Select with type Search Input=================================-->
+                                        <form action="{% url 'index' %}" method="get">
+                                            <select class="selectpicker" data-live-search="true" data-width="50%"
+                                                    name="type_option">
+                                                <option value="">类别选择(默认全部)</option>
+                                                {% for type in type_obj %}
+                                                    {% if selected == type.id %}
+                                                        <option value="{{ type.id }}"
+                                                                selected="selected">{{ type.typebook }}</option>
+                                                    {% else %}
+                                                        <option value="{{ type.id }}">{{ type.typebook }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                            <!--===================================================-->
+                                            <!--====================={#status input#}==============================-->
+                                            {#status input#}
+                                            <select class="selectpicker" data-live-search="true" data-width="50%"
+                                                    name="status">
+                                                <option value="">出版状态选择</option>
+                                                {% if status == 1 %}
+                                                    <option value="1" selected="selected">已出版</option>
+                                                {% else %}
+                                                    <option value="1">已出版</option>
+                                                {% endif %}
+                                                {% if status == 0 %}
+                                                    <option value="0" selected="selected">未出版</option>
+                                                {% else %}
+                                                    <option value="0">未出版</option>
+                                                {% endif %}
+                                            </select>
+                                            <!--===================================================-->
+                                    </div>
+                                    <!--=========================Search box==========================-->
+                                    <div class="col-sm-6 table-toolbar-right">
+
+                                        <div class="form-group">
+                                            <input type="text" autocomplete="off" class="form-control"
+                                                   placeholder="查询"
+                                                   id="demo-input-search2" name="search"
+                                                   value="{% ifequal search '' %}{% else %}{{ search }}{% endifequal %}">
+                                        </div>
+                                        <div class="btn-group">
+                                            <input class="btn btn-default" type="submit" value="搜索">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--=======================数据展示============================-->
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>图书名</th>
+                                    <th>作者</th>
+                                    <th>出版日期</th>
+                                    <th>类别</th>
+                                    <th class="text-center">出版状态</th>
+                                    <th class="text-center">库存数量</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for book in book_obj.object_list %}
+                                    <tr>
+                                        <td><a href="" class="btn-link">{{ book.name }}</a></td>
+                                        <td>{% for author_name in book.author.all %}{{ author_name }}
+                                            ,  {% endfor %}</td>
+                                        <td>
+                                            <span class="text-muted">
+                                            <i class="fa fa-clock-o"></i>{{ book.publish_year }}
+                                            </span>
+                                        </td>
+                                        <td>{{ book.type }}</td>
+                                        <td class="text-center">
+                                            {% if book.status == 1 %}
+                                                <div class="label label-table label-success">已出版</div>
+                                            {% elif book.status == 0 %}
+                                                <div class="label label-table label-danger">未出版</div>
+                                            {% else %}
+                                                <div></div>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">{{ book.stock }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <!--=======================页码导航============================-->
+                        <div class="pull-right">
+                            <ul class="pagination text-nowrap mar-no">
+                                <!--=======================判断是否有上一页============================-->
+                                {% if book_obj.has_previous %}
+                                    <li class="page-pre">
+                                        <a href="?page={{ book_obj.previous_page_number }}&type_option={{ selected }}&status={{ status }}&search={{ search }}">&lt;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-pre disabled">
+                                        <a href="#">&lt;</a>
+                                    </li>
+                                {% endif %}
+                                <!--=======================展示页码============================-->
+                                {% for page in book_obj.paginator.page_range %}
+                                    {% if page %}
+                                        {% ifequal page book_obj.number %}
+                                            <li class="page-number active">
+                                                <a href="?page={{ page }}">{{ page }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-number">
+                                                <a href="?page={{ page }}&type_option={{ selected }}&status={{ status }}&search={{ search }}">{{ page }}</a>
+                                            </li>
+                                        {% endifequal %}
+                                    {% else %}
+                                        ...
+                                    {% endif %}
+                                {% endfor %}
+                                <!--=======================判断是否有下一页============================-->
+                                {% if book_obj.has_next %}
+                                    <li class="page-next">
+                                        <a href="?page={{ book_obj.next_page_number }}&type_option={{ selected }}&status={{ status }}&search={{ search }}">&gt;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-pre disabled">
+                                        <a href="#">&gt;</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--===================================================-->
+                    <!--End Data Table-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+

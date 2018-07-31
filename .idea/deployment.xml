@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="ssh://opsserver@103.197.70.16:8888/usr/bin/python" autoUploadExternalChanges="true">
+    <serverData>
+      <paths name="ssh://opsserver@103.197.70.16:8888/usr/bin/python">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/opsserver/mybook" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

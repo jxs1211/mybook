@@ -1,0 +1,644 @@
+{% extends 'base.html' %}
+
+
+
+{% block css %}
+    <!--解决footer内部按钮高度不一致的问题-->
+    <style>
+        .modal-footer .btn + .btn {
+            margin: 7px 7px 7px 0;
+        }
+    </style>
+    <!--Switchery [ OPTIONAL ]-->
+    <link href="/static/plugins/switchery/switchery.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.css" rel="stylesheet">
+
+
+    <!--Chosen [ OPTIONAL ]-->
+    <link href="/static/plugins/chosen/chosen.min.css" rel="stylesheet">
+
+
+    <!--noUiSlider [ OPTIONAL ]-->
+    <link href="/static/plugins/noUiSlider/nouislider.min.css" rel="stylesheet">
+
+
+    <!--Select2 [ OPTIONAL ]-->
+    <link href="/static/plugins/select2/css/select2.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <!--toastr  [ OPTIONAL ]-->
+    <link href="/static/css/toastr/toastr.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <!--Switchery [ OPTIONAL ]-->
+    <script src="/static/plugins/switchery/switchery.min.js"></script>
+
+
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+
+
+    <!--Chosen [ OPTIONAL ]-->
+    <script src="/static/plugins/chosen/chosen.jquery.min.js"></script>
+
+
+    <!--noUiSlider [ OPTIONAL ]-->
+    <script src="/static/plugins/noUiSlider/nouislider.min.js"></script>
+
+
+    <!--Select2 [ OPTIONAL ]-->
+    <script src="/static/plugins/select2/js/select2.min.js"></script>
+
+
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+
+
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+    <!--Form Component [ SAMPLE ]-->
+    <script src="/static/js/demo/form-component.js"></script>
+
+    <!--toastr-->
+    <script src="/static/js/toastr/toastr.js"></script>
+
+{% endblock %}
+{% block title %}
+    图书管理
+{% endblock %}
+
+
+{% block content %}
+    <div id="page-content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-tixtle">图书管理</h3>
+                    </div>
+                    <!-- 定义添加图书按钮的布局位置 -->
+                    <div class="panel-body demo-nifty-btn">
+                        <!-- Button trigger modal -->
+                        <!-- Button的属性data-target="#myModal" 等于 Modal 顶部div的属性id="myModal"-->
+                        <!-- 实现点击按钮加载对应id名的模态框-->
+                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                            添加图书
+                        </button>
+                        <!-- 添加图示模态框 -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <!-- 右上角关闭按钮 -->
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <!-- modal title -->
+                                        <h4 class="modal-title" id="myModalLabel">图书表单</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <div class="col-lg-12"> -->
+                                        <!-- form start -->
+
+                                        <form action="{% url "add_book" %}"
+                                              class="panel-body form-horizontal form-padding"
+                                              enctype="multipart/form-data" id="addbookform" method="post">
+
+                                            {#                                      {% csrf_token %}#}
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">书名：</label>
+                                                <div class="col-md-9">
+                                                    {{ book_form.name }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"
+                                                       for="demo-text-input">出版日期：</label>
+                                                <div class="col-md-9">
+                                                    {{ book_form.publish_year }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">价格：</label>
+                                                <div class="col-md-9">
+                                                    {{ book_form.price }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">库存：</label>
+                                                <div class="col-md-9">
+                                                    {{ book_form.stock }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">作者：</label>
+                                                <div class="col-md-9">
+                                                    {{ book_form.author }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"
+                                                       for="demo-text-input">出版状态：</label>
+                                                <div class="col-md-9">
+                                                    <div class="select">{{ book_form.status }}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"
+                                                       for="demo-text-input">类型选择：</label>
+                                                <div class="col-md-9">
+                                                    {{ book_form.type }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"
+                                                       for="demo-text-input">出版社选择：</label>
+                                                <div class="col-md-9">
+                                                    {{ book_form.publisher }}
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                        <!-- form end -->
+                                        <!-- </div>-->
+                                    </div><!--modal body-->
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" id="addbook_submit">保存</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--详情模态框-->
+                        <div class="modal fade" id="details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <!-- 右上角关闭按钮 -->
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <!-- modal title -->
+                                        <h4 class="modal-title" id="myModalLabel">图书详情</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <div class="col-lg-12"> -->
+                                        <!-- form start -->
+
+                                        <form action="{% url "add_book" %}"
+                                              class="panel-body form-horizontal form-padding"
+                                              enctype="multipart/form-data" id="addbookform" method="post">
+
+                                            {#{% csrf_token %}#}
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">章节：</label>
+                                                <div class="col-md-9">
+                                                    {{ detail_form.chapter }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label"
+                                                       for="demo-text-input">页数：</label>
+                                                <div class="col-md-9">
+                                                    {{ detail_form.pages }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">字数：</label>
+                                                <div class="col-md-9">
+                                                    {{ detail_form.words }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">简介：</label>
+                                                <div class="col-md-9">
+                                                    {{ detail_form.contentinfo }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">目录：</label>
+                                                <div class="col-md-9">
+                                                    {{ detail_form.catalog }}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">封面：</label>
+                                                <div class="col-md-9">
+                                                    <div class="col-md-9">{{ detail_form.logo }}</div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                        <input type="hidden" value="" id="book_id" name="book_id">
+                                        <!-- form end -->
+                                        <!-- </div>-->
+                                    </div><!--modal body-->
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" id="adddetail_submit" value="">保存</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--删除图书模态框-->
+                        <div class="modal fade" id="delete_book" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <!-- 右上角关闭按钮 -->
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <!-- modal title -->
+                                        <h4 class="modal-title" id="myModalLabel">图书删除</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- <div class="col-lg-12"> -->
+                                        <!-- form start -->
+
+                                        <form action="{% url "add_book" %}"
+                                              class="panel-body form-horizontal form-padding"
+                                              enctype="multipart/form-data" id="addbookform" method="post">
+
+                                            {#{% csrf_token %}#}
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="demo-text-input">确认删除：</label>
+                                                <div class="col-md-9">
+                                                    {{ book.name }}
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                        <!-- form end -->
+                                        <!-- </div>-->
+                                    </div><!--modal body-->
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" id="delete_submit" value="">删除</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Data Table-->
+                    <!--===================================================-->
+                    <div class="panel-body">
+                        <div class="pad-btm form-inline">
+                            <div class="row">
+                                <form action="{% url 'add_book' %}" method="get">
+                                    <div class="col-sm-6 table-toolbar-left">
+                                        <!--=================Bootstrap Select with type Search Input=================================-->
+                                        {#                                        <form action="{% url 'add_book' %}" method="get">#}
+                                        <select class="selectpicker" data-live-search="true" data-width="50%"
+                                                name="type_option">
+                                            <option value="">类别选择(默认全部)</option>
+                                            {% for type in type_obj %}
+                                                {% if selected == type.id %}
+                                                    <option value="{{ type.id }}"
+                                                            selected="selected">{{ type.typebook }}</option>
+                                                {% else %}
+                                                    <option value="{{ type.id }}">{{ type.typebook }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <!--===================================================-->
+                                        <!--====================={#status input#}==============================-->
+                                        {#status input#}
+                                        <select class="selectpicker" data-live-search="true" data-width="50%"
+                                                name="status">
+                                            <option value="">出版状态选择</option>
+                                            {% if status == 1 %}
+                                                <option value="1" selected="selected">已出版</option>
+                                            {% else %}
+                                                <option value="1">已出版</option>
+                                            {% endif %}
+                                            {% if status == 0 %}
+                                                <option value="0" selected="selected">未出版</option>
+                                            {% else %}
+                                                <option value="0">未出版</option>
+                                            {% endif %}
+                                        </select>
+                                        <!--===================================================-->
+                                    </div>
+                                    <!--=========================Search box==========================-->
+                                    <div class="col-sm-6 table-toolbar-right">
+
+                                        <div class="form-group">
+                                            <input type="text" autocomplete="off" class="form-control"
+                                                   placeholder="查询" id="demo-input-search2" name="search"
+                                                   value="{% ifequal search '' %}{% else %}{{ search }}{% endifequal %}">
+                                        </div>
+                                        <div class="btn-group">
+                                            <input class="btn btn-default" type="submit" value="搜索">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!--=======================数据展示============================-->
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>图书名</th>
+                                    <th>作者</th>
+                                    <th>出版日期</th>
+                                    <th>类别</th>
+                                    <th class="text-center">出版状态</th>
+                                    <th class="text-center">库存数量</th>
+                                    <th class="text-center">价格</th>
+                                    <th class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for book in book_obj.object_list %}
+                                    <tr>
+                                        <td><a href="" class="btn-link">{{ book.name }}</a></td>
+                                        <td>{% for author_name in book.author.all %}{{ author_name }}
+                                            ,  {% endfor %}</td>
+                                        <td>
+                                            <span class="text-muted">
+                                            <i class="fa fa-clock-o"></i>{{ book.publish_year }}
+                                            </span>
+                                        </td>
+                                        <td>{{ book.type }}</td>
+                                        <td class="text-center">
+                                            {% if book.status == 1 %}
+                                                <div class="label label-table label-success">已出版</div>
+                                            {% elif book.status == 0 %}
+                                                <div class="label label-table label-danger">未出版</div>
+                                            {% else %}
+                                                <div></div>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">{{ book.stock }}</td>
+                                        <td class="text-center">{{ book.price }}</td>
+                                        <td class="text-center">
+                                            {% if book.info %}
+                                                <button class="btn btn-purple btn-rounded" data-toggle="modal"
+                                                data-target="#details" type="button" id="details_id" disabled="disabled"
+                                                onclick="Values({{ book.id }})">已完善详情
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-info btn-rounded" data-toggle="modal"
+                                                        data-target="#details" type="button" id="details_id"
+                                                        onclick="Values({{ book.id }})">请完善详情
+                                                </button>
+{#                                                <div class="btn-group btn-group-lg" role="group" aria-label="...">已完善详情</div>#}
+{#                                                <div class="btn-group" role="group" aria-label="...">...</div>#}
+{#                                                <div class="btn-group btn-group-sm" role="group" aria-label="...">...</div>#}
+{#                                                <div class="btn-group btn-group-xs" role="group" aria-label="...">...</div>#}
+                                            {% endif %}
+
+                                                <a class="btn btn-warning btn-rounded" href="{% url 'edit_book' book.id %}">编辑</a>
+                                                <button class="btn btn-danger btn-rounded" data-toggle="modal"
+                                                        data-target="#delete_book" type="button" id="details_id"
+                                                        onclick="Values_del({{ book.id }})">删除
+                                                </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <!--=======================页码导航=======================-->
+                        <div class="pull-right">
+                            <ul class="pagination text-nowrap mar-no">
+                                <!--=======================判断是否有上一页============================-->
+                                {% if book_obj.has_previous %}
+                                    <li class="page-pre">
+                                        <a href="?page={{ book_obj.previous_page_number }}&type_option={{ selected }}&status={{ status }}&search={{ search }}">&lt;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-pre disabled">
+                                        <a href="#">&lt;</a>
+                                    </li>
+                                {% endif %}
+                                <!--=======================展示页码============================-->
+                                {% for page in book_obj.pages %}
+                                    {% if page %}
+                                        {% ifequal page book_obj.number %}
+                                            <li class="page-number active">
+                                                <a href="?page={{ page }}">{{ page }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-number">
+                                                <a href="?page={{ page }}&type_option={{ selected }}&status={{ status }}&search={{ search }}">{{ page }}</a>
+                                            </li>
+                                        {% endifequal %}
+                                    {% else %}
+                                        ...
+                                    {% endif %}
+                                {% endfor %}
+                                <!--=======================判断是否有下一页============================-->
+                                {% if book_obj.has_next %}
+                                    <li class="page-next">
+                                        <a href="?page={{ book_obj.next_page_number }}&type_option={{ selected }}&status={{ status }}&search={{ search }}">&gt;</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-pre disabled">
+                                        <a href="#">&gt;</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--===================================================-->
+                    <!--End Data Table-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        <!--用选择器获取id为addbook_submit的标签-->
+        $('#addbook_submit').click(function () {
+            <!--=========获取表单的数据==========-->
+            var input_dict = {'author': ''};
+            <!--=========多选框里的多个数据的获取方法==========-->
+            $('#demo-cs-multiselect').each(
+                function () {
+                    var v = $(this).val();
+                    input_dict['author'] = v;
+                }
+            );
+
+            input_dict['name'] = $('#bookname').val();
+            input_dict['publish_year'] = $('#publish_year').val();
+            input_dict['price'] = $('#price').val();
+            input_dict['stocks'] = $('#stocks').val();
+            input_dict['status'] = $('#status').val();
+            input_dict['type'] = $('#type').val();
+            input_dict['publisher'] = $('#publisher').val();
+            <!--=========打印获取表单的数据==========-->
+            console.log(input_dict)
+
+            $.ajax(
+                {
+                    type: 'post',
+                    dataType: 'json', <!--=========后端返回给前端的数据结构==========-->
+                    url: '{% url 'add_book' %}', <!--=========数据提交到url的别名所对应的类==========-->
+                    data: input_dict,
+                    tradinational: true, <!--=========ajax实现有多个值的数据的切割==========-->
+                    <!--=========后台验证结果在此返回，前台判断显示==========-->
+                    success: function (data) {
+                        console.log(data);
+                        if (data['status'] == 'success') {
+                            <!--=========后台返回提交成功后刷新页面，再点击添加图书表单不会有上次的数据==========-->
+                            window.location.reload()
+                            toastr.success(data['data'])
+                        } else {
+                            Data = data['data']
+                            for (var key in Data) {
+                                console.log(key)
+                            }
+                            toastr.warning(key + ' ' + Data[key])
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        toastr.warning(error['data'])
+                    }
+                }
+            )
+        })
+        <!--用选择器获取id为adddetail_submit的标签-->
+        $('#adddetail_submit').click(function () {
+            <!--=========FormData是jQuery的原生类，提交含有文件、图片等类型的数据表单需要使用FormData==========-->
+
+            var formdata = new FormData();
+
+            formdata.append("chapter",$('#chapter').val());
+            formdata.append("pages",$('#pages').val());
+            formdata.append("words",$('#words').val());
+            formdata.append("contentinfo",$('#demo-textarea-input-1').val());
+            formdata.append("catalog",$('#demo-textarea-input-2').val());
+            <!--========添加文件的固定写法==========-->
+            formdata.append("logo",$('#logo_file')[0].files[0]);
+            formdata.append("bookid",$('#adddetail_submit').val());
+            <!--=========打印获取表单的数据==========-->
+            $.ajax(
+                {
+                    <!--=========将下面4个功能关闭后才能正常将带有文件的数据传到后端==========-->
+                    async:false,
+                    processData:false,
+                    cache:false,
+                    contentType:false,
+                    type: 'post',
+                    dataType: 'json', <!--=========后端返回给前端的数据结构==========-->
+                    url: '{% url 'add_detail' %}', <!--=========数据提交到url的别名所对应的类==========-->
+                    data: formdata,
+                    tradinational: true, <!--=========ajax实现有多个值的数据的切割==========-->
+                    <!--=========后台验证结果在此返回，前台判断显示==========-->
+                    success: function (data) {
+                        console.log(data);
+                        if (data['status'] == 'success') {
+                            <!--=========后台返回提交成功后刷新页面，再点击添加图书表单不会有上次的数据==========-->
+                            window.location.reload()
+                            toastr.success(data['data'])
+                        } else {
+                            Data = data['data']
+                            for (var key in Data) {
+                                console.log(key)
+                            }
+                            toastr.warning(key + ' ' + Data[key])
+                        }
+                    },
+                    error: function (error) {
+{#                        console.log(error);#}
+                        toastr.warning(error['data'])
+                    }
+                }
+            )
+        })
+        <!--用选择器获取id为adddetail_submit的标签-->
+        $('#delete_submit').click(function () {
+            var input_dict = {'author': ''};
+            input_dict['bookid']=$('#delete_submit').val();
+
+            $.ajax(
+                {
+                    type: 'post',
+                    dataType: 'json', <!--=========后端返回给前端的数据结构==========-->
+                    url: '{% url 'delete_book' %}', <!--=========数据提交到url的别名所对应的类==========-->
+                    data: input_dict,
+                    tradinational: true, <!--=========ajax实现有多个值的数据的切割==========-->
+                    <!--=========后台验证结果在此返回，前台判断显示==========-->
+                    success: function (data) {
+                        console.log(data);
+                        if (data['status'] == 'success') {
+                            <!--=========后台返回提交成功后刷新页面，再点击添加图书表单不会有上次的数据==========-->
+                            toastr.success(data['data'])
+                            window.location.reload()
+                        } else {
+                            Data = data['data']
+                            for (var key in Data) {
+                                console.log(key)
+                            }
+                            toastr.warning(key + ' ' + Data[key])
+                        }
+                    },
+                    error: function (error) {
+{#                        console.log(error);#}
+                        toastr.warning(error['data'])
+                    }
+                }
+            )
+        })
+{#        <!--=========点击添加详情的时候获取当前的bookid，将数据传给模态框的某个标签，再提交的时候放在request传给后端==========-->#}
+        function Values(data) {
+            $('#adddetail_submit').val(data)
+        }
+        <!--=========点击删除的时候获取当前的bookid，将数据传给模态框的某个标签，再提交的时候放在request传给后端==========-->#}
+        function Values_del(data) {
+            $('#delete_submit').val(data)
+        }
+    </script>
+{% endblock %}
+
+
+
+
+

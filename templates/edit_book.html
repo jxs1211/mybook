@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+
+
+{% block css %}
+    <!--解决footer内部按钮高度不一致的问题-->
+    <style>
+        .modal-footer .btn + .btn {
+            margin: 7px 7px 7px 0;
+        }
+    </style>
+    <!--Switchery [ OPTIONAL ]-->
+    <link href="/static/plugins/switchery/switchery.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.css" rel="stylesheet">
+
+
+    <!--Chosen [ OPTIONAL ]-->
+    <link href="/static/plugins/chosen/chosen.min.css" rel="stylesheet">
+
+
+    <!--noUiSlider [ OPTIONAL ]-->
+    <link href="/static/plugins/noUiSlider/nouislider.min.css" rel="stylesheet">
+
+
+    <!--Select2 [ OPTIONAL ]-->
+    <link href="/static/plugins/select2/css/select2.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
+
+
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <link href="/static/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <!--toastr  [ OPTIONAL ]-->
+    <link href="/static/css/toastr/toastr.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+    <!--Switchery [ OPTIONAL ]-->
+    <script src="/static/plugins/switchery/switchery.min.js"></script>
+
+
+    <!--Bootstrap Select [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+
+
+    <!--Bootstrap Tags Input [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+
+
+    <!--Chosen [ OPTIONAL ]-->
+    <script src="/static/plugins/chosen/chosen.jquery.min.js"></script>
+
+
+    <!--noUiSlider [ OPTIONAL ]-->
+    <script src="/static/plugins/noUiSlider/nouislider.min.js"></script>
+
+
+    <!--Select2 [ OPTIONAL ]-->
+    <script src="/static/plugins/select2/js/select2.min.js"></script>
+
+
+    <!--Bootstrap Timepicker [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js"></script>
+
+
+    <!--Bootstrap Datepicker [ OPTIONAL ]-->
+    <script src="/static/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+    <!--Form Component [ SAMPLE ]-->
+    <script src="/static/js/demo/form-component.js"></script>
+
+    <!--toastr-->
+    <script src="/static/js/toastr/toastr.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+    <div id="panel">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="myModalLabel">图书编辑</h6>
+            </div>
+            <form action="" class="panel-body form-horizontal form-padding"
+                  enctype="multipart/form-data" style="padding-bottom:0" method="post" novalidate>
+
+                {#{% csrf_token %}#}
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">书名：</label>
+                    <div class="col-md-5">
+                        {{ book_form.name }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">出版日期：</label>
+                    <div class="col-md-5">
+                        {{ book_form.publish_year }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">价格：</label>
+                    <div class="col-md-5">
+                        {{ book_form.price }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">库存：</label>
+                    <div class="col-md-5">
+                        {{ book_form.stock }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">作者：</label>
+                    <div class="col-md-5">
+                        {{ book_form.author }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">出版状态：</label>
+                    <div class="col-md-5">
+                        <div class="select">{{ book_form.status }}</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">类型选择：</label>
+                    <div class="col-md-5">
+                        {{ book_form.type }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">出版社选择：</label>
+                    <div class="col-md-5">
+                        {{ book_form.publisher }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">章节：</label>
+                    <div class="col-md-5">
+                        {{ detail_form.chapter }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">页数：</label>
+                    <div class="col-md-5">
+                        {{ detail_form.pages }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">字数：</label>
+                    <div class="col-md-5">
+                        {{ detail_form.words }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">简介：</label>
+                    <div class="col-md-5">
+                        {{ detail_form.contentinfo }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="demo-text-input">目录：</label>
+                    <div class="col-md-5">
+                        {{ detail_form.catalog }}
+                    </div>
+                </div>
+
+{#                <div class="form-group">#}
+{#                    <label class="col-md-3 control-label" for="demo-text-input">封面：</label>#}
+{#                    <div class="col-md-5">#}
+{#                        <div class="col-md-9">{{ detail_form.logo }}</div>#}
+{#                    </div>#}
+{#                </div>#}
+
+                <div class="form-group {% if detail_form.errors.logo %}has-error{% endif %}">
+{#                    <label class="col-md-3 control-label">图书封面</label>#}
+                    <label class="col-md-3 control-label" for="demo-text-input">图书封面：</label>
+                    <div class="form-group col-md-5" id="uploadForm" enctype='multipart/form-data' style="margin:10px;">
+                        <div class="h4" style="width:100px; height:30px;margin:0 auto">图片预览</div>
+                        <div class="fileinput fileinput-new" data-provides="fileinput" id="exampleInputUpload"
+                        style="margin: auto">
+
+                            <div class="fileinput-new thumbnail"
+                                 style="width: 200px;height: auto;max-height:150px; margin: auto;">
+                                {% if detail_obj.logo %}
+                                    <img src="{{ MEDIA_URL }}{{ detail_obj.logo }}" style="max-height: 140px;">
+                                {% else %}
+                                    <img src="/static/fileinput/images/noimage.png" style="max-height: 140px;">
+                                {% endif %}
+                            </div>
+                            <br>
+
+                            <div class="form-group" style="left: 500px">
+{#                                <label class="col-md-3 control-label" for="demo-text-input">封面：</label>#}
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+{#                                        {% if detail_form.logo. %}#}
+                                        {{ detail_form.logo }}</div>
+                                </div>
+                            </div>
+{#                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">#}
+{#                                <img src="{{ MEDIA_URL }}{{ detail_obj.logo }}" style="max-height: 140px;">#}
+{#                            </div>#}
+{#                            <div>#}
+{#                                {% if detail_obj.logo %}#}
+{#                                    {{ detail_obj.logo }}<br>#}
+{#                                {% else %}#}
+{#                                {% endif %}#}
+{#                                <a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">移除</a>#}
+{#                            </div>#}
+                            <div class="help-block">
+                                {% if detail_form.errors.0 %}{{ detail_form.errors.logo.0 }}{% endif %}
+                                {% if book_form.errors.0 %}{{ book_form.errors.logo.0 }}{% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            <div class="modal-footer">
+                <div class="col-md-8" style="left: 400px">
+                    <input class="btn btn-lg btn-success" type="submit" value="保存" id="editbook_submit">
+                    <button class="btn btn-lg btn-dark" type="button" id="back_edit">返回</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        <!--用选择器获取id为back_edit的标签-->
+        $('#back_edit').click(function () {
+            window.location.href='/managerbook/addbook/'
+        })
+{#        <!--=========点击添加详情的时候获取当前的bookid，将数据传给模态框的某个标签，再提交的时候放在request传给后端==========-->#}
+        function Values(data) {
+            $('#adddetail_submit').val(data)
+        }
+        <!--=========点击删除的时候获取当前的bookid，将数据传给模态框的某个标签，再提交的时候放在request传给后端==========-->#}
+        function Values_del(data) {
+            $('#delete_submit').val(data)
+        }
+    </script>
+{% endblock %}
+
+
+
+
+
